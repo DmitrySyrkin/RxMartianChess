@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Field, FieldProps, Figure } from "./Field";
+import { calculateState } from "./BoardStateCalculator";
 
 export type BoardProps = {
   xIsNext: boolean;
@@ -30,15 +31,7 @@ export class Board extends React.Component<BoardProps, BoardProps> {
   }
 
   handleClick(row: number, col: number) {
-    this.setState({
-      xIsNext: !this.state.xIsNext,
-      figures: this.state.figures,
-      selected:
-        row == this.state.selected?.row && col == this.state.selected?.col
-          ? null
-          : { row: row, col: col },
-    });
-
+    this.setState(calculateState(this.state, row, col));
     console.log(`${row}:${col}`);
   }
 
