@@ -1,13 +1,10 @@
-import CSS from "csstype";
+import { Figure } from "./components/Field";
 
-class StylesClass {
-  RedBg = {
-    backgroundColor: "red",
+export const GetStyle = (bgColor: string, figure: Figure, isSelected: boolean) => {
+  return {
+    backgroundColor: bgColor,
+    height: 80,
+    width: 80,
+    color: isSelected ? 'yellow' : 'black'
   };
-
-  BlueBg: CSS.Properties = {
-    backgroundColor: "blue",
-  };
-}
-
-export const Styles : StylesClass = new StylesClass();
+};

@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { Board, BoardProps } from "./Board";
+import { Figure } from "./Field";
 
-const startingBoard: BoardProps = { 
+const startingFigures = [
+  [Figure.Queen, Figure.Queen, Figure.Drone, Figure.None],
+  [Figure.Queen, Figure.Drone, Figure.Pawn, Figure.None],
+  [Figure.Drone, Figure.Pawn, Figure.Pawn, Figure.None],
+  [Figure.None, Figure.None, Figure.None, Figure.None],
+  [Figure.None, Figure.None, Figure.None, Figure.None],
+  [Figure.None, Figure.Pawn, Figure.Pawn, Figure.Drone],
+  [Figure.None, Figure.Pawn, Figure.Drone, Figure.Queen],
+  [Figure.None, Figure.Drone, Figure.Queen, Figure.Queen],
+];
+
+const startingBoard: BoardProps = {
   xIsNext: true,
+  figures: startingFigures,
 };
 
 export class Game extends React.Component {
@@ -10,7 +23,10 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board xIsNext={startingBoard.xIsNext} />
+          <Board
+            xIsNext={startingBoard.xIsNext}
+            figures={startingBoard.figures}
+          />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>

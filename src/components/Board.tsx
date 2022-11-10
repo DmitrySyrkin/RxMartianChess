@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Field } from "./Field";
+import { Field, FieldProps, Figure } from "./Field";
 
 export type BoardProps = {
   xIsNext: boolean;
+  figures: Figure[][];
+  selected?: { row: number; col: number };
 };
 
 export class Board extends React.Component<BoardProps, BoardProps> {
@@ -10,18 +12,46 @@ export class Board extends React.Component<BoardProps, BoardProps> {
     super(props);
     this.state = {
       xIsNext: props.xIsNext,
+      figures: props.figures,
+      selected: null,
     };
   }
 
-  renderField(row: number, col: number) {
+  renderField(props: FieldProps) {
     return (
-      <Field row={row} col={col} onClick={() => this.handleClick(row, col)} />
+      <Field
+        row={props.row}
+        col={props.col}
+        isSelected={props.isSelected}
+        figure={props.figure}
+        onClick={() => this.handleClick(props.row, props.col)}
+      />
     );
   }
 
   handleClick(row: number, col: number) {
-    this.setState({ xIsNext: !this.state.xIsNext });
+    this.setState({
+      xIsNext: !this.state.xIsNext,
+      figures: this.state.figures,
+      selected:
+        row == this.state.selected?.row && col == this.state.selected?.col
+          ? null
+          : { row: row, col: col },
+    });
+
     console.log(`${row}:${col}`);
+  }
+
+  getFieldProps(row: number, col: number): FieldProps {
+    return {
+      row: row,
+      col: col,
+      figure: this.state.figures[row][col],
+      isSelected:
+        this.state.figures[row][col] != Figure.None &&
+        row == this.state.selected?.row &&
+        col == this.state.selected?.col,
+    };
   }
 
   renderRows() {
@@ -29,7 +59,7 @@ export class Board extends React.Component<BoardProps, BoardProps> {
     for (let row: number = 0; row < 8; row++) {
       let oneRow: JSX.Element[] = [];
       for (let col: number = 0; col < 4; col++)
-        oneRow.push(this.renderField(row, col));
+        oneRow.push(this.renderField(this.getFieldProps(row, col)));
       list.push(<div className="board-row">{oneRow}</div>);
     }
     return list;
