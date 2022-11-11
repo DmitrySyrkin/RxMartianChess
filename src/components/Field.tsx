@@ -17,17 +17,12 @@ export type FieldProps = {
 };
 
 const getClassName = (props: FieldProps) => {
-  return props.row > 3
-    ? GetClassName(
-        (props.col + props.row) % 2 == 0 ? "red" : "pink",
-        props.figure,
-        props.isSelected
-      )
-    : GetClassName(
-        (props.col + props.row) % 2 == 0 ? "navy" : "blue",
-        props.figure,
-        props.isSelected
-      );
+  return GetClassName(
+    ((props.col + props.row) % 2 == 0 ? "light-" : "") +
+      (props.row > 3 ? "red" : "blue"),
+    props.figure,
+    props.isSelected
+  );
 };
 
 export const Field = (props: FieldProps) => (

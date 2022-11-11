@@ -3,7 +3,7 @@ import { Field, FieldProps, Figure } from "./Field";
 import { calculateState } from "./BoardStateCalculator";
 
 export type BoardProps = {
-  xIsNext: boolean;
+  isRedTurn: boolean;
   figures: Figure[][];
   selected?: { row: number; col: number };
 };
@@ -12,7 +12,7 @@ export class Board extends React.Component<BoardProps, BoardProps> {
   constructor(props: BoardProps) {
     super(props);
     this.state = {
-      xIsNext: props.xIsNext,
+      isRedTurn: props.isRedTurn,
       figures: props.figures,
       selected: null,
     };
@@ -59,7 +59,7 @@ export class Board extends React.Component<BoardProps, BoardProps> {
   }
 
   render() {
-    let status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    let status = "Current player: " + (this.state.isRedTurn ? "Red" : "Blue");
 
     return (
       <div>

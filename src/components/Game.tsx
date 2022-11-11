@@ -14,7 +14,7 @@ const startingFigures = [
 ];
 
 const startingBoard: BoardProps = {
-  xIsNext: true,
+  isRedTurn: true,
   figures: startingFigures,
 };
 
@@ -24,7 +24,7 @@ export class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
-            xIsNext={startingBoard.xIsNext}
+            isRedTurn={startingBoard.isRedTurn}
             figures={startingBoard.figures}
           />
         </div>

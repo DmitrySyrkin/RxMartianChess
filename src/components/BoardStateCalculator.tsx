@@ -1,27 +1,45 @@
-import {BoardProps} from "./Board"
-import {Figure} from "./Field"
+import { BoardProps } from "./Board";
+import { Figure } from "./Field";
 
-export const calculateState = (state: BoardProps, clickedRow: number, clickedCol: number) => {
-    let updatedFigures = state.figures.slice();
-    let updatedSelected =
-      clickedRow == state.selected?.row &&
-      clickedCol == state.selected?.col
-        ? null
-        : { row: clickedRow, col: clickedCol };
-    if (
-      state.selected != null &&
-      updatedFigures[clickedRow][clickedCol] == Figure.None
-    ) {
-      updatedFigures[clickedRow][clickedCol] =
-        updatedFigures[state.selected.row][state.selected.col];
-      updatedFigures[state.selected.row][state.selected.col] =
-        Figure.None;
-      updatedSelected = null;
+export const calculateState = (
+  state: BoardProps,
+  clickedRow: number,
+  clickedCol: number
+) => {
+  let updatedFigures = state.figures.slice();
+  let updatedSelected = state.selected;
+  let updatedIsRedTurn = state.isRedTurn;
+
+  if (state.selected == null) {
+    if (belongsToCurrentPlayer(clickedRow, state.isRedTurn)) {
+      updatedSelected = { row: clickedRow, col: clickedCol };
     }
-
-    return {
-      xIsNext: !state.xIsNext,
-      figures: updatedFigures,
-      selected: updatedSelected,
-    };
+  } else if (
+    updatedSelected.row == clickedRow &&
+    updatedSelected.col == clickedCol
+  ) {
+    updatedSelected = null;
   }
+
+  if (
+    state.selected != null &&
+    belongsToCurrentPlayer(clickedRow, state.isRedTurn) &&
+    updatedFigures[clickedRow][clickedCol] == Figure.None
+  ) {
+    updatedFigures[clickedRow][clickedCol] =
+      updatedFigures[state.selected.row][state.selected.col];
+    updatedFigures[state.selected.row][state.selected.col] = Figure.None;
+    updatedSelected = null;
+    updatedIsRedTurn = !updatedIsRedTurn;
+  }
+
+  return {
+    isRedTurn: updatedIsRedTurn,
+    figures: updatedFigures,
+    selected: updatedSelected,
+  };
+};
+
+const belongsToCurrentPlayer = (clickedRow: number, isRedTurn: boolean) => {
+  return (clickedRow > 3 && isRedTurn) || (clickedRow < 4 && !isRedTurn);
+};
