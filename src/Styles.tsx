@@ -1,10 +1,10 @@
 import { Figure } from "./components/Field";
+import "./main.scss";
 
-export const GetStyle = (bgColor: string, figure: Figure, isSelected: boolean) => {
-  return {
-    backgroundColor: bgColor,
-    height: 80,
-    width: 80,
-    color: isSelected ? 'yellow' : 'black'
-  };
+export const GetClassName = (
+  bgColor: string,
+  figure: Figure,
+  isSelected: boolean
+) => {
+  return `btn ${bgColor} ${isSelected ? "selected" : ""} ${figure}`;
 };

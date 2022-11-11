@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { GetStyle } from "../Styles";
+import { GetClassName } from "../Styles";
 
 export enum Figure {
-  None,
-  Pawn,
-  Drone,
-  Queen,
+  None = "none",
+  Pawn = "pawn",
+  Drone = "drone",
+  Queen = "queen",
 }
 
 export type FieldProps = {
@@ -16,14 +16,14 @@ export type FieldProps = {
   onClick?: any;
 };
 
-const getStyle = (props: FieldProps) => {
+const getClassName = (props: FieldProps) => {
   return props.row > 3
-    ? GetStyle(
+    ? GetClassName(
         (props.col + props.row) % 2 == 0 ? "red" : "pink",
         props.figure,
         props.isSelected
       )
-    : GetStyle(
+    : GetClassName(
         (props.col + props.row) % 2 == 0 ? "navy" : "blue",
         props.figure,
         props.isSelected
@@ -31,8 +31,8 @@ const getStyle = (props: FieldProps) => {
 };
 
 export const Field = (props: FieldProps) => (
-  <button style={getStyle(props)} onClick={() => props.onClick()}>
-    <h2>{props.figure}</h2>
-    {`${props.row}:${props.col}`}
-  </button>
+  <button
+    className={getClassName(props)}
+    onClick={() => props.onClick()}
+  ></button>
 );

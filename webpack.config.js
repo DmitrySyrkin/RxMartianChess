@@ -17,6 +17,15 @@ module.exports = {
         exclude: /node_modules/,
         loader: "ts-loader",
       },
+      {
+        test: /\.((c|sa|sc)ss)$/i,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+          },
+        ],
+      },
     ],
   },
   plugins: [

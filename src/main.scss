@@ -1,0 +1,45 @@
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.pink {
+  background-color: pink;
+}
+
+.navy {
+  background-color: navy;
+}
+
+.selected {
+  border: 2px solid yellow;
+}
+
+.btn {
+  width: 80px;
+  height: 80px;
+  background-repeat: no-repeat;
+  background-position: center; 
+}
+
+.queen {
+  background-image: url(./images/queen.png);
+  background-size: 60px 60px;
+}
+
+.drone {
+  background-image: url(./images/drone.png);
+  background-size: 50px 50px;
+}
+
+.pawn {
+  background-image: url(./images/pawn.png);
+  background-size: 40px 40px;
+}
+
+.none {
+  background-image: none;
+}
