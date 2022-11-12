@@ -88,7 +88,7 @@ const isValidMove = (
       if (selected.row == clickedRow) {
         for (
           let c = Math.min(selected.col, clickedCol) + 1;
-          c < Math.max(selected.col, clickedCol) + 1;
+          c < Math.max(selected.col, clickedCol);
           c++
         ) {
           if (figures[selected.row][c] != Figure.None) {
@@ -112,19 +112,45 @@ const isValidMove = (
             ? 1
             : -1;
 
-        for (let i = 1; i < Math.abs(selected.row - clickedRow) - 1; i++) {
-          if (
-            figures[Math.min(selected.row, clickedRow) + i][
-              Math.min(selected.col, clickedCol) + i * slope
-            ] != Figure.None
+        if (slope == 1) {
+          for (
+            let i = Math.min(selected.row, clickedRow) + 1,
+              j = Math.min(selected.col, clickedCol) + 1;
+            i < Math.abs(selected.row - clickedRow);
+            i++, j++
           ) {
-            return false;
+            if (figures[i][j] != Figure.None) {
+              return false;
+            }
           }
+          return true;
+        } else if (slope == -1) {
+          for (
+            let i = Math.min(selected.row, clickedRow) + 1,
+              j = Math.max(selected.col, clickedCol) - 1;
+            i < Math.abs(selected.row - clickedRow);
+            i++, j--
+          ) {
+            if (figures[i][j] != Figure.None) {
+              return false;
+            }
+          }
+          return true;
         }
-        return true;
-      }
 
-      return false;
+        return false;
+      }
+    }
+  }
+  return false;
+};
+
+const isGameEnd = (figures: Figure[][], isRedTurn: boolean) => {
+  let startRow = isRedTurn ? 4 : 0;
+  let endRow = isRedTurn ? 8 : 4;
+  for (let i = startRow; i < endRow; i++) {
+    for (let j = 0; j < 4; j++) {
+      if (figures[i][j] != Figure.None) return false;
     }
   }
   return true;
@@ -138,6 +164,8 @@ export const calculateState = (
   let updatedFigures = state.figures.slice();
   let updatedSelected = state.selected;
   let updatedIsRedTurn = state.isRedTurn;
+  let updatedRedScore = state.redScore;
+  let updateBlueScore = state.blueScore;
 
   // select
   if (state.selected == null) {
@@ -167,6 +195,22 @@ export const calculateState = (
         updatedFigures
       )
     ) {
+      let clickedFigure = updatedFigures[clickedRow][clickedCol];
+
+      if (clickedFigure != Figure.None) {
+        let value =
+          clickedFigure == Figure.Queen
+            ? 3
+            : clickedFigure == Figure.Drone
+            ? 2
+            : 1;
+        if (state.isRedTurn) {
+          updatedRedScore += value;
+        } else {
+          updateBlueScore += value;
+        }
+      }
+
       updatedFigures[clickedRow][clickedCol] =
         updatedFigures[state.selected.row][state.selected.col];
       updatedFigures[state.selected.row][state.selected.col] = Figure.None;
@@ -179,5 +223,8 @@ export const calculateState = (
     isRedTurn: updatedIsRedTurn,
     figures: updatedFigures,
     selected: updatedSelected,
+    redScore: updatedRedScore,
+    blueScore: updateBlueScore,
+    isGameEnd: isGameEnd(updatedFigures, state.isRedTurn),
   };
 };

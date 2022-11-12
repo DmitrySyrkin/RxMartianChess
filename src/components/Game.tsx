@@ -16,6 +16,8 @@ const startingFigures = [
 const startingBoard: BoardProps = {
   isRedTurn: true,
   figures: startingFigures,
+  redScore: 0,
+  blueScore: 0,
 };
 
 export class Game extends React.Component {
@@ -23,10 +25,7 @@ export class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-          <Board
-            isRedTurn={startingBoard.isRedTurn}
-            figures={startingBoard.figures}
-          />
+          <Board {...startingBoard} />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>

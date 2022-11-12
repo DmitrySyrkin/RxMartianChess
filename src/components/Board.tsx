@@ -6,6 +6,9 @@ export type BoardProps = {
   isRedTurn: boolean;
   figures: Figure[][];
   selected?: { row: number; col: number };
+  redScore: number;
+  blueScore: number;
+  isGameEnd?: boolean;
 };
 
 export class Board extends React.Component<BoardProps, BoardProps> {
@@ -15,6 +18,8 @@ export class Board extends React.Component<BoardProps, BoardProps> {
       isRedTurn: props.isRedTurn,
       figures: props.figures,
       selected: null,
+      redScore: props.redScore,
+      blueScore: props.blueScore,
     };
   }
 
@@ -31,6 +36,10 @@ export class Board extends React.Component<BoardProps, BoardProps> {
   }
 
   handleClick(row: number, col: number) {
+    if (this.state.isGameEnd == true) {
+      return;
+    }
+
     this.setState(calculateState(this.state, row, col));
     console.log(`${row}:${col}`);
   }
@@ -60,10 +69,18 @@ export class Board extends React.Component<BoardProps, BoardProps> {
 
   render() {
     let status = "Current player: " + (this.state.isRedTurn ? "Red" : "Blue");
-
+    let score = `Score: Red ${this.state.redScore} - Blue ${this.state.blueScore}`;
+    let winnerText =
+      this.state.isGameEnd == true
+        ? `Winner: ${
+            this.state.redScore > this.state.blueScore ? "RED" : "BLUE"
+          }`
+        : null;
     return (
       <div>
         <div className="status">{status}</div>
+        <div className="score">{score}</div>
+        <div className="winner">{winnerText}</div>
         {this.renderRows()}
       </div>
     );
