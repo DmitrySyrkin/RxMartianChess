@@ -22,7 +22,7 @@
   width: 80px;
   height: 80px;
   background-repeat: no-repeat;
-  background-position: center; 
+  background-position: center;
 }
 
 .queen {
@@ -42,4 +42,29 @@
 
 .none {
   background-image: none;
+}
+
+.center {
+  vertical-align: center;
+  padding: 10px;
+}
+
+.top {
+  vertical-align: top;
+  padding-left: 20px;
+  padding-top: 0px;
+
+}
+
+.border {
+  border: 2px solid black;
+}
+
+.minor {
+  height: 40px;
+  width: 150px;
+}
+
+.board {
+  width: 325px;
 }
