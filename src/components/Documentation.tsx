@@ -52,7 +52,7 @@ export const gameInfo = () => {
       </p>
       <h2> Source code</h2>
       <p>
-        Source code can be found on
+        Source code can be found on&nbsp;
         <a
           href="https://github.com/DmitrySyrkin/RxMartianChess"
           target="_blank"
