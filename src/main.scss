@@ -53,6 +53,7 @@
   vertical-align: top;
   padding-left: 20px;
   padding-top: 0px;
+  border: black 1px solid;
 
 }
 
@@ -67,4 +68,7 @@
 
 .board {
   width: 325px;
+  overflow: hidden;
+  display: inline-block;
+  border: black 1px solid;
 }
