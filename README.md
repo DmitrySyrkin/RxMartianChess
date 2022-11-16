@@ -3,6 +3,8 @@ MartianChess implemented with React
 
 Generally, I've taken React JS tutorial, rewritten it to TS and got the logic from PyMartianChess that I've created some time ago.
 
+You can try it out on https://www.syrkin.com/MartianChess/
+
 TODO:
 - Add the following check: 
 a player may not immediately reverse an opponent's last move (i.e. may not move the piece across the canal back to its departure square, on the next turn).
