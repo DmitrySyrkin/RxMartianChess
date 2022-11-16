@@ -1,27 +1,25 @@
 import React, { Component } from "react";
-import { Field, FieldProps, Figure } from "./Field";
-import { calculateState } from "./BoardStateCalculator";
+import { Field, FieldProps } from "./Field";
+import { Figure } from "./Figure";
+import { getMove, updateState } from "./BoardStateCalculator";
+import { aiEnabled, getNextMove } from "./AI";
+import { Position } from "./Position";
 import { gameInfo } from "./Documentation";
 import "./../main.scss";
 
-export type BoardProps = {
-  isRedTurn: boolean;
-  figures: Figure[][];
+export type BoardState = {
+  position: Position;
   selected?: { row: number; col: number };
-  redScore: number;
-  blueScore: number;
-  isGameEnd?: boolean;
+  isGameEnd: boolean;
 };
 
-export class Board extends React.Component<BoardProps, BoardProps> {
-  constructor(props: BoardProps) {
+export class Board extends React.Component<Position, BoardState> {
+  constructor(props: Position) {
     super(props);
     this.state = {
-      isRedTurn: props.isRedTurn,
-      figures: props.figures,
+      position: props,
       selected: null,
-      redScore: props.redScore,
-      blueScore: props.blueScore,
+      isGameEnd: false,
     };
   }
 
@@ -42,17 +40,22 @@ export class Board extends React.Component<BoardProps, BoardProps> {
       return;
     }
 
-    this.setState(calculateState(this.state, row, col));
-    console.log(`${row}:${col}`);
+    this.setState(
+      updateState(this.state, getMove(this.state.selected, row, col))
+    );
+
+    if (aiEnabled) {
+      this.setState(updateState(this.state, getNextMove(this.state.position)));
+    }
   }
 
   getFieldProps(row: number, col: number): FieldProps {
     return {
       row: row,
       col: col,
-      figure: this.state.figures[row][col],
+      figure: this.state.position.figures[row][col],
       isSelected:
-        this.state.figures[row][col] != Figure.None &&
+        this.state.position.figures[row][col] != Figure.None &&
         row == this.state.selected?.row &&
         col == this.state.selected?.col,
     };
@@ -76,7 +79,9 @@ export class Board extends React.Component<BoardProps, BoardProps> {
       return (
         <td className="center border">
           <h1>{`Winner is ${
-            this.state.redScore > this.state.blueScore ? "RED" : "BLUE"
+            this.state.position.redScore > this.state.position.blueScore
+              ? "RED"
+              : "BLUE"
           }`}</h1>
         </td>
       );
@@ -84,8 +89,9 @@ export class Board extends React.Component<BoardProps, BoardProps> {
   }
 
   render() {
-    let status = "Current player: " + (this.state.isRedTurn ? "Red" : "Blue");
-    let score = `Score: Red ${this.state.redScore} - Blue ${this.state.blueScore}`;
+    let status =
+      "Current player: " + (this.state.position.isRedTurn ? "Red" : "Blue");
+    let score = `Score: Red ${this.state.position.redScore} - Blue ${this.state.position.blueScore}`;
 
     return (
       <table>
@@ -100,9 +106,7 @@ export class Board extends React.Component<BoardProps, BoardProps> {
                 <td className="minor center border">{score}</td>
                 <td>{this.getWinnerText()}</td>
               </tr>
-              <tr>                
-                {gameInfo()}
-              </tr>
+              <tr>{gameInfo()}</tr>
             </table>
           </td>
         </tr>

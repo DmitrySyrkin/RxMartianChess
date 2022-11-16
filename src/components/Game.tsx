@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Board, BoardProps } from "./Board";
-import { Figure } from "./Field";
+import { Board } from "./Board";
+import { Figure } from "./Figure";
+import { Position } from "./Position";
 
 const startingFigures = [
   [Figure.Queen, Figure.Queen, Figure.Drone, Figure.None],
@@ -13,7 +14,7 @@ const startingFigures = [
   [Figure.None, Figure.Drone, Figure.Queen, Figure.Queen],
 ];
 
-const startingBoard: BoardProps = {
+const startingBoard: Position = {
   isRedTurn: true,
   figures: startingFigures,
   redScore: 0,

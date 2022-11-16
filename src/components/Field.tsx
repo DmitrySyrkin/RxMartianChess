@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { GetClassName } from "../Styles";
-
-export enum Figure {
-  None = "none",
-  Pawn = "pawn",
-  Drone = "drone",
-  Queen = "queen",
-}
+import { Figure } from "./Figure";
 
 export type FieldProps = {
   row: number;

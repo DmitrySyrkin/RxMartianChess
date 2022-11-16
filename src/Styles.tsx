@@ -1,4 +1,4 @@
-import { Figure } from "./components/Field";
+import { Figure } from "./components/Figure";
 import "./main.scss";
 
 export const GetClassName = (
